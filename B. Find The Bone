@@ -1,0 +1,83 @@
+By redatawfik, contest: Codeforces Round #408 (Div. 2), problem: (B) Find The Bone, Accepted, #
+ import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int m = scan.nextInt();
+        int k = scan.nextInt();
+
+        boolean[] arr = new boolean[n + 1];
+
+        for (int i = 0; i < m; i++) {
+            int index = scan.nextInt();
+            arr[index] = true;
+        }
+
+        int bone = 1;
+
+        for (int i = 0; i < k; i++) {
+            int a = scan.nextInt();
+            int b = scan.nextInt();
+
+            if (arr[bone]) {
+                System.out.println(bone);
+                return;
+            }
+
+            if (a == bone) bone = b;
+            else if (b == bone) bone = a;
+
+
+        }
+
+        System.out.println(bone);
+    }
+
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+
+    }
+}
