@@ -1,0 +1,90 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.stream.LongStream;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int f = scan.nextInt();
+
+        long total = 0;
+
+        long[] products = new long[n];
+        long[] people = new long[n];
+
+        for (int i = 0; i < n; i++) {
+            products[i] = scan.nextInt();
+            people[i] = scan.nextInt();
+        }
+
+        long[] dif = new long[n];
+        long[] minArr = new long[n];
+
+        for (int i = 0; i < n; i++) {
+
+            long minBefor = Math.min(people[i], products[i]);
+            long minAfter = Math.min(people[i], products[i] * 2);
+
+            minArr[i] = minBefor;
+            dif[i] = Math.abs(minBefor - minAfter);
+        }
+
+        total  += LongStream.of(minArr).sum();
+
+        Arrays.sort(dif);
+
+        for(int i = n - 1;i > n - 1-f;i--){
+            total += dif[i];
+        }
+
+        System.out.println(total);
+
+
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
