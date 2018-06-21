@@ -1,0 +1,133 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int x = scan.nextInt();
+        int[] arr = new int[n];
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = scan.nextInt();
+        }
+
+        int[] ar = Sorting.bucketSort(arr, n);
+
+        long sum = 0;
+
+        for (int i = 0; i < ar.length; i++) {
+            sum += (long) x * ar[i];
+            if (x > 1) x--;
+        }
+
+        System.out.println(sum);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
+
+class Sorting {
+
+    public static int[] bucketSort(int[] array, int bucketCount) {
+
+        if (bucketCount <= 0) throw new IllegalArgumentException("Invalid bucket count");
+
+        if (array.length <= 1) return array; //trivially sorted
+
+
+        int high = array[0];
+
+        int low = array[0];
+
+        for (int i = 1; i < array.length; i++) { //find the range of input elements
+
+            if (array[i] > high) high = array[i];
+
+            if (array[i] < low) low = array[i];
+
+        }
+
+        double interval = ((double) (high - low + 1)) / bucketCount; //range of one bucket
+
+
+        ArrayList<Integer> buckets[] = new ArrayList[bucketCount];
+
+        for (int i = 0; i < bucketCount; i++) { //initialize buckets
+
+            buckets[i] = new ArrayList();
+
+        }
+
+
+        for (int i = 0; i < array.length; i++) { //partition the input array
+
+            buckets[(int) ((array[i] - low) / interval)].add(array[i]);
+
+        }
+
+
+        int pointer = 0;
+
+        for (int i = 0; i < buckets.length; i++) {
+
+            Collections.sort(buckets[i]); //mergeSort
+
+            for (int j = 0; j < buckets[i].size(); j++) { //merge the buckets
+
+                array[pointer] = buckets[i].get(j);
+
+                pointer++;
+
+            }
+
+        }
+
+        return array;
+
+    }
+}
+
+
+
