@@ -1,0 +1,110 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Solution {
+
+    static ArrayList<Student> studentList;
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int m = scan.nextInt();
+
+        studentList = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            studentList.add(new Student());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int a = scan.nextInt() - 1;
+            int b = scan.nextInt() - 1;
+
+            studentList.get(a).relations.add(b);
+            studentList.get(b).relations.add(a);
+        }
+
+        boolean remain = true;
+        int count = 0;
+        while(remain){
+            count++;
+            remain =false;
+            ArrayList removedObjectList = new ArrayList();
+            HashMap<Integer, Integer> removedPointersHash = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                if (studentList.get(i).relations.size() == 1) {
+                    remain =true;
+                    removedObjectList.add(i);
+                    removedPointersHash.put(i, studentList.get(i).relations.get(0));
+                }
+
+            }
+            removeObject(removedObjectList);
+            removePointers(removedPointersHash);
+        }
+       System.out.println(count-1);
+    }
+
+    private static void removeObject(ArrayList<Integer> list) {
+        for (int i : list) {
+            studentList.get(i).relations.clear();
+        }
+    }
+
+    private static void removePointers(HashMap<Integer, Integer> hashMap) {
+        for (Map.Entry<Integer, Integer> entry : hashMap.entrySet()) {
+            studentList.get(entry.getValue()).relations.remove(entry.getKey());
+        }
+
+    }
+
+    public static class Student {
+        ArrayList<Integer> relations;
+
+        Student() {
+            relations = new ArrayList();
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
