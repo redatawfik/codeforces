@@ -1,0 +1,107 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.StringTokenizer;
+
+
+public class Solution {
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        int p = scan.nextInt();
+        int q = scan.nextInt();
+        int l = scan.nextInt();
+        int r = scan.nextInt();
+
+        ArrayList<Interval> z = new ArrayList<>();
+        ArrayList<Interval> x = new ArrayList<>();
+
+        for (int i = 0; i < p; i++) {
+            z.add(new Interval(scan.nextInt(), scan.nextInt()));
+        }
+        for (int i = 0; i < q; i++) {
+            x.add(new Interval(scan.nextInt(), scan.nextInt()));
+        }
+
+        int count = 0;
+        HashSet h = new HashSet();
+        for (int i = 0; i < p; i++) {
+            int a = z.get(i).start;
+            int b = z.get(i).end;
+            for (int j = 0; j < q; j++) {
+
+                for (int k = l; k <= r; k++) {
+                    int c = x.get(j).start;
+                    int d = x.get(j).end;
+
+                    c += k;
+                    d += k;
+                    if ((d >= a && d <= b) ||
+                            (c >= a && c <= b) ||
+                            (c <= a && d >= b)) {
+                        count++;
+                        h.add(k);
+                    }
+
+                }
+
+            }
+
+        }
+
+        System.out.println(h.size());
+    }
+
+    static class Interval {
+        int start;
+        int end;
+
+        Interval(int s, int e) {
+            this.start = s;
+            this.end = e;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
