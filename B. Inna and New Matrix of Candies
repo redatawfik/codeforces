@@ -1,0 +1,101 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+
+public class Solution {
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int m = scan.nextInt();
+        int g;
+        int s;
+        char[] ca;
+        int min = Integer.MAX_VALUE;
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            g = 0;
+            s = 0;
+            ca = scan.next().toCharArray();
+            for (int j = 0; j < m; j++) {
+                if (((Character) ca[j]).equals('G')) g = j;
+                else if (((Character) ca[j]).equals('S')) s = j;
+            }
+            int diff = s - g;
+            if (diff < 0) {
+                System.out.println("-1");
+                return;
+            }
+            arr.add(diff);
+            if (diff < min) min = diff;
+        }
+
+        int last = min;
+        int count = 0;
+
+        while (true) {
+
+            min = last;
+            last = Integer.MAX_VALUE;
+            boolean state = true;
+            for (int i = 0; i < arr.size(); i++) {
+
+                if (arr.get(i) != 0) {
+                    state = false;
+                    int newV = arr.get(i) - min;
+                    arr.set(i, newV);
+                    if (arr.get(i) != 0 && arr.get(i) < last) {
+                        last = arr.get(i);
+                    }
+                }
+
+            }
+            if (state) break;
+            count++;
+        }
+        System.out.println(count);
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
