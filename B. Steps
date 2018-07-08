@@ -1,0 +1,107 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+
+public class Solution {
+    static long x;
+    static long y;
+    static long cx;
+    static long cy;
+    static long k;
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        x = scan.nextLong();
+        y = scan.nextLong();
+        cx = scan.nextLong();
+        cy = scan.nextLong();
+        k = scan.nextLong();
+
+        long sum = 0;
+        for (long i = 0; i < k; i++) {
+            sum += getMax(scan.nextLong(), scan.nextLong());
+
+        }
+
+        System.out.println(sum);
+    }
+
+    static long getMax(long sx, long sy) {
+        long px = 0;
+        long py = 0;
+
+        if (sx > 0) {
+            px = Math.abs((x - cx) / sx);
+        } else if (sx < 0) {
+            px = Math.abs((cx - 1) / sx);
+        }
+
+        if (sy > 0) {
+            py = Math.abs((y - cy) / sy);
+        } else if (sy < 0) {
+            py = Math.abs((cy - 1) / sy);
+        }
+
+        if (sx == 0) {
+            shift(py, sx, sy);
+            return py;
+        } else if (sy == 0) {
+            shift(px, sx, sy);
+            return px;
+        } else {
+            if (px > py) {
+                shift(py, sx, sy);
+                return py;
+            } else {
+                shift(px, sx, sy);
+                return px;
+            }
+        }
+    }
+
+    static void shift(long n, long sx, long sy) {
+        cx += n * sx;
+        cy += n * sy;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
