@@ -1,0 +1,74 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        int m = scan.nextInt();
+
+        int[] arr = new int[n + 1];
+
+        for (int i = 0; i < m; i++) {
+
+            int a = scan.nextInt();
+            int b = scan.nextInt();
+            int v = scan.nextInt();
+
+            arr[a] += v;
+            arr[b] -= v;
+
+        }
+
+        int sum = 0;
+        for (int num : arr) {
+            if (num > 0) sum += num;
+        }
+
+        System.out.println(sum);
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
