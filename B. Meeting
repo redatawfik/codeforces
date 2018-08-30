@@ -1,0 +1,137 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int x1 = scan.nextInt();
+        int y1 = scan.nextInt();
+        int x2 = scan.nextInt();
+        int y2 = scan.nextInt();
+
+        Point small = new Point();
+        Point large = new Point();
+
+        if (x1 < x2) {
+            small.x = x1;
+            large.x = x2;
+        } else {
+            small.x = x2;
+            large.x = x1;
+        }
+        if (y1 < y2) {
+            small.y = y1;
+            large.y = y2;
+        } else {
+            small.y = y2;
+            large.y = y1;
+        }
+
+        ArrayList<Point> arr = new ArrayList<>();
+
+        for (int i = small.y; i <= large.y; i++) {
+            Point p1 = new Point();
+            p1.x = small.x;
+            p1.y = i;
+            arr.add(p1);
+
+            Point p2 = new Point();
+            p2.x = large.x;
+            p2.y = i;
+            arr.add(p2);
+        }
+
+        for (int i = small.x + 1; i <= large.x - 1; i++) {
+            Point p1 = new Point();
+            p1.x = i;
+            p1.y = small.y;
+            arr.add(p1);
+
+            Point p2 = new Point();
+            p2.x = i;
+            p2.y = large.y;
+            arr.add(p2);
+        }
+
+        int n = scan.nextInt();
+        Point[] pArr = new Point[n];
+        for (int i = 0; i < n; i++) {
+            pArr[i] = new Point();
+            pArr[i].x = scan.nextInt();
+            pArr[i].y = scan.nextInt();
+            pArr[i].r = scan.nextInt();
+        }
+
+        int count = 0;
+        for (Point p : arr) {
+
+            boolean state = false;
+            innerLoop:
+            for (int i = 0; i < n; i++) {
+                double d = Math.sqrt(Math.pow(p.x - pArr[i].x, 2) + Math.pow(p.y - pArr[i].y, 2));
+
+                if(d <= pArr[i].r){
+                    state = true;
+                    break innerLoop;
+                }
+            }
+
+            if(!state){
+                count++;
+            }
+        }
+
+        System.out.println(count);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
+
+class Point {
+    int x;
+    int y;
+    int r;
+}
