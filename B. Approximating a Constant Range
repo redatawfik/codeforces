@@ -1,0 +1,120 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+
+        ArrayList<Node> arr = new ArrayList<>();
+
+        int count = 1;
+        int current = scan.nextInt();
+
+        for (int i = 0; i < n - 1; i++) {
+
+            int num = scan.nextInt();
+            if(num == current){
+                count++;
+            }else{
+                Node node = new Node();
+                node.num = current;
+                node.count = count;
+                count = 1;
+                current = num;
+                arr.add(node);
+            }
+        }
+
+        Node node = new Node();
+        node.num = current;
+        node.count = count;
+        arr.add(node);
+
+        if(arr.size() == 1){
+            System.out.println(arr.get(0).count);
+        }else if(arr.size() == 2){
+            System.out.println(arr.get(0).count + arr.get(1).count);
+        }else{
+
+            int first = arr.get(0).num;
+            int second = arr.get(1).num;
+
+            int maxLength = arr.get(0).count + arr.get(1).count;
+            int freq = maxLength;
+            for (int i = 2, q = arr.size(); i < q; i++) {
+
+                if(arr.get(i).num == first || arr.get(i).num == second){
+                    freq+=arr.get(i).count;
+                }else{
+                    if(freq > maxLength){
+                        maxLength = freq;
+                    }
+
+                    first = arr.get(i).num;
+                    second = arr.get(i - 1).num;
+                    freq = arr.get(i -1).count + arr.get(i).count;
+                }
+            }
+
+            if(freq > maxLength){
+                maxLength = freq;
+            }
+
+            System.out.println(maxLength);
+        }
+
+
+
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
+
+class Node{
+    int num;
+    int count;
+}
