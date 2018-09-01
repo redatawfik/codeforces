@@ -1,0 +1,33 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class MashmokhandTokens {
+
+	static Scanner sc;
+
+	public static void main(String[] args) throws FileNotFoundException {
+
+		sc = new Scanner(System.in);
+
+		//Read the inputs
+		int n = sc.nextInt();
+
+		int a = sc.nextInt();
+		int b = sc.nextInt();
+
+		for (int i = 0; i < n; i++) {
+
+			long w = sc.nextInt();
+
+			//calculate k0
+			long mod = (( w % b ) * ( a % b )) % b;
+
+			long k0 = mod / a;
+
+			//print result
+			System.out.print(k0 + " ");
+		}
+
+	}
+
+}
