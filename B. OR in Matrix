@@ -1,0 +1,122 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int m = scan.nextInt();
+        int n = scan.nextInt();
+
+        int[][] arr = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                arr[i][j] = scan.nextInt();
+            }
+        }
+
+        int[][] newArr = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(newArr[i], 1);
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr[i][j] == 0) {
+                    for (int k = 0; k < n; k++) {
+                        newArr[i][k] = 0;
+                    }
+                    for (int k = 0; k < m; k++) {
+                        newArr[k][j] = 0;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr[i][j] == 1) {
+                    boolean col = false;
+                    boolean row = false;
+
+                    firstLoop:
+                    for (int k = 0; k < n; k++) {
+                        if(newArr[i][k] == 1){
+                            row = true;
+                            break firstLoop;
+                        }
+
+                    }
+
+                    secondLoop:
+                    for (int k = 0; k < m; k++) {
+                        if(newArr[k][j] == 1){
+                            col = true;
+                            break secondLoop;
+                        }
+                    }
+
+                    if(!col && !row){
+                        System.out.println("NO");
+                        return;
+                    }
+                }
+            }
+        }
+
+        StringBuilder s = new StringBuilder();
+        s.append("YES\n");
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                s.append(newArr[i][j]).append(" ");
+            }
+            s.append("\n");
+        }
+
+        System.out.println(s);
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
