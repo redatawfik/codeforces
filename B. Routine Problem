@@ -1,0 +1,76 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int a = scan.nextInt();
+        int b = scan.nextInt();
+        int c = scan.nextInt();
+        int d = scan.nextInt();
+
+
+        if ((a * 1.0 / b) < (c * 1.0 / d)) {
+
+            int f = (b * c) - (a * d);
+            int s = b * c;
+            int gcd = GCD(f, s);
+            System.out.println(f / gcd + "/" + s / gcd);
+        } else if ((a * 1.0 / b) > (c * 1.0 / d)) {
+            int f = (a * d) - (b * c);
+            int s = a * d;
+            int gcd = GCD(f, s);
+            System.out.println(f / gcd + "/" + s / gcd);
+        } else {
+            System.out.println("0/1");
+        }
+    }
+
+    public static int GCD(int a, int b) {
+        if (b == 0) return a;
+        return GCD(b, a % b);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
