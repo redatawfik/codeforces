@@ -1,0 +1,116 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        Point[] arr = new Point[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = new Point(scan.nextInt(), scan.nextInt());
+        }
+
+
+        HashMap<Integer, Integer> plus = new HashMap<>();
+        HashMap<Integer, Integer> minus = new HashMap<>();
+
+
+        for (int i = 0, m = arr.length; i < m; i++) {
+
+            int vp = arr[i].x + arr[i].y;
+            int vm = arr[i].x - arr[i].y;
+
+            if (plus.containsKey(vp)) {
+                int newV = plus.get(vp);
+                plus.replace(vp, ++newV);
+            } else {
+                plus.put(vp, 1);
+            }
+
+            if (minus.containsKey(vm)) {
+                int newV = minus.get(vm);
+                minus.replace(vm, ++newV);
+            } else {
+                minus.put(vm, 1);
+            }
+        }
+
+        int sum = 0;
+
+        for (Map.Entry<Integer, Integer> entry : plus.entrySet()) {
+            if (entry.getValue() > 1) {
+                sum += fun(entry.getValue());
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : minus.entrySet()) {
+            if (entry.getValue() > 1) {
+                sum += fun(entry.getValue());
+            }
+        }
+
+        System.out.println(sum);
+    }
+
+    static int fun(int num) {
+        return (num * (num - 1)) / 2;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
+
+class Point {
+
+    int x;
+    int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+}
