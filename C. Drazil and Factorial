@@ -1,0 +1,89 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+
+        FastScanner scan = new FastScanner(System.in);
+
+        int n = scan.nextInt();
+        ArrayList<Integer> arr = new ArrayList<>();
+
+        String s = scan.next();
+
+        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(String.valueOf(s.charAt(i)));
+
+            if (num == 4) {
+                arr.add(2);
+                arr.add(2);
+                arr.add(3);
+            } else if (num == 6) {
+                arr.add(3);
+                arr.add(5);
+            } else if (num == 8) {
+                arr.add(2);
+                arr.add(2);
+                arr.add(2);
+                arr.add(7);
+            } else if (num == 9) {
+                arr.add(3);
+                arr.add(3);
+                arr.add(7);
+                arr.add(2);
+            } else if (num != 1 && num != 0) {
+                arr.add(num);
+            }
+        }
+
+        Collections.sort(arr);
+        for (int i = arr.size() - 1; i >= 0; i--) {
+            System.out.print(arr.get(i));
+        }
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static class FastScanner {
+        private BufferedReader br;
+        private StringTokenizer st;
+
+        public FastScanner(InputStream stream) {
+            br = new BufferedReader(new InputStreamReader(stream));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] tab = new long[n];
+            for (int i = 0; i < tab.length; i++) {
+                tab[i] = nextLong();
+            }
+            return tab;
+        }
+    }
+}
