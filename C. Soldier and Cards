@@ -1,0 +1,114 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Solution {
+
+
+    public static void main(String[] args) {
+//        InputStream inputStream;
+//        try
+//        {
+//            inputStream = new FileInputStream("input");
+//        } catch (IOException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+//        OutputStream outputStream;
+//        try
+//        {
+//            outputStream = new FileOutputStream("output.txt");
+//        } catch (IOException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        InputReader in = new InputReader(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        TaskC solver = new TaskC();
+        solver.solve(1, in, out);
+        out.close();
+    }
+
+    static class TaskC {
+
+
+        public void solve(int testNumber, InputReader in, PrintWriter out) {
+
+            int n = in.nextInt();
+
+            int k1 = in.nextInt();
+            ArrayList<Integer> arr1 = new ArrayList<>();
+            for (int i = 0; i < k1; i++) {
+                arr1.add(in.nextInt());
+            }
+
+            int k2 = in.nextInt();
+            ArrayList<Integer> arr2 = new ArrayList<>();
+            for (int i = 0; i < k2; i++) {
+                arr2.add(in.nextInt());
+            }
+
+            int count = 0;
+
+            for (int i = 0; i < 200; i++) {
+                if (arr1.size() == 0 || arr2.size() == 0) {
+                    break;
+                }
+
+                count++;
+                if (arr1.get(0) > arr2.get(0)) {
+                    arr1.add(arr2.get(0));
+                    arr1.add(arr1.get(0));
+                    arr1.remove(0);
+                    arr2.remove(0);
+                } else {
+                    arr2.add(arr1.get(0));
+                    arr2.add(arr2.get(0));
+                    arr1.remove(0);
+                    arr2.remove(0);
+                }
+            }
+
+            if (arr1.size() == 0) {
+                out.print(count + " ");
+                out.print(2);
+            } else if (arr2.size() == 0) {
+                out.print(count + " ");
+                out.print(1);
+            } else {
+                out.print(-1);
+            }
+
+        }
+
+    }
+
+    static class InputReader {
+        public BufferedReader reader;
+        public StringTokenizer tokenizer;
+
+        public InputReader(InputStream stream) {
+            reader = new BufferedReader(new InputStreamReader(stream), 32768);
+            tokenizer = null;
+        }
+
+        public String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+    }
+
+}
