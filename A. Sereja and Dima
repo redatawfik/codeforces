@@ -1,0 +1,61 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    vector<int> v;
+    for(int i = 0; i < n; i++)
+    {
+        int m;
+        cin >> m;
+        v.push_back(m);
+    }
+
+    int start = 0, last = n - 1, seraj = 0, dima = 0;
+    bool ser = true;
+
+
+    while(start <= last)
+    {
+        int t1 = v[start];
+        int t2 = v[last];
+
+        if(t1 > t2)
+        {
+            if(ser)
+            {
+                seraj += t1;
+                ser = false;
+            }
+            else
+            {
+                dima += t1;
+                ser = true;
+            }
+
+            start++;
+        }
+        else
+        {
+            if(ser)
+            {
+                seraj += t2;
+                ser = false;
+            }
+            else
+            {
+                dima += t2;
+                ser = true;
+            }
+
+            last--;
+        }
+    }
+
+    cout<< seraj << " " << dima;
+
+}
