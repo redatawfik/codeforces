@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int main()
+{
+    set <int> set0;
+    int cnt = 4, n;
+    while(cnt > 0){
+        cin >> n;
+        set0.insert(n);
+        cnt--;
+    }
+    cout << 4 - set0.size();
+    return 0;
+}
